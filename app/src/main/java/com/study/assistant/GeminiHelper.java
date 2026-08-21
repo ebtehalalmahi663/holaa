@@ -30,7 +30,7 @@ public class GeminiHelper {
 
     public static String getApiKey(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return prefs.getString(KEY_API_KEY, "");
+        return prefs.getString(KEY_API_KEY, "AQ.Ab8RN6JJ4F2EJkPGcKX63675alaVR-60qUU9Ygpa5nAn7MRCXg");
     }
 
     public static void saveApiKey(Context context, String key) {
