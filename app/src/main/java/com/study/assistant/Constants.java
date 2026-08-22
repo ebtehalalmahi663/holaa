@@ -10,10 +10,14 @@ public class Constants {
     public static class CollegeInfo {
         public List<String> departments;
         public int semesterCount;
+        public int iconRes;
+        public int colorRes;
 
-        public CollegeInfo(List<String> departments, int semesterCount) {
+        public CollegeInfo(List<String> departments, int semesterCount, int iconRes, int colorRes) {
             this.departments = departments;
             this.semesterCount = semesterCount;
+            this.iconRes = iconRes;
+            this.colorRes = colorRes;
         }
     }
 
@@ -21,19 +25,24 @@ public class Constants {
 
     static {
         COLLEGES.put("كلية علوم الحاسوب وتقانة المعلومات", new CollegeInfo(
-                listOf("تقانة المعلومات", "نظم المعلومات", "علوم الحاسوب"), 10));
+                listOf("تقانة المعلومات", "نظم المعلومات", "علوم الحاسوب"), 10,
+                R.drawable.ic_college_computer, R.color.college_cs));
 
         COLLEGES.put("كلية الطب", new CollegeInfo(
-                listOf("طب بيطري", "تمريض", "مختبرات", "طب بشري"), 10));
+                listOf("طب بيطري", "تمريض", "مختبرات", "طب بشري"), 10,
+                R.drawable.ic_college_medicine, R.color.college_medicine));
 
         COLLEGES.put("كلية الاقتصاد", new CollegeInfo(
-                listOf("اقتصاد", "محاسبة", "نظم معلومات", "إدارة"), 8));
+                listOf("اقتصاد", "محاسبة", "نظم معلومات", "إدارة"), 8,
+                R.drawable.ic_college_economics, R.color.college_economics));
 
         COLLEGES.put("كلية القانون", new CollegeInfo(
-                listOf("القانون"), 8));
+                listOf("القانون"), 8,
+                R.drawable.ic_college_law, R.color.college_law));
 
         COLLEGES.put("كلية التربية", new CollegeInfo(
-                listOf("لغة عربية", "لغة إنجليزية", "فيزياء ورياضيات", "كيمياء وأحياء", "علم نفس", "تربية خاصة"), 8));
+                listOf("لغة عربية", "لغة إنجليزية", "فيزياء ورياضيات", "كيمياء وأحياء", "علم نفس", "تربية خاصة"), 8,
+                R.drawable.ic_college_education, R.color.college_education));
     }
 
     private static List<String> listOf(String... items) {
