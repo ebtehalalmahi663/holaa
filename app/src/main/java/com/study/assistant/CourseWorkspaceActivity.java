@@ -2,9 +2,9 @@ package com.study.assistant;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
@@ -22,8 +22,6 @@ public class CourseWorkspaceActivity extends AppCompatActivity {
         String department = getIntent().getStringExtra("department");
         String semester = getIntent().getStringExtra("semester");
 
-        setTitle(college + " - " + department + " - " + semester);
-
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         ViewPager2 viewPager = findViewById(R.id.viewPager);
 
@@ -31,17 +29,14 @@ public class CourseWorkspaceActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         String[] tabTitles = {"المقررات", "الشات الذكي", "مقياس المذاكرة"};
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> tab.setText(tabTitles[position])
-        ).attach();
-    }
+        int[] tabIcons = {R.drawable.ic_tab_courses, R.drawable.ic_tab_chat, R.drawable.ic_tab_quiz};
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("الإعدادات").setOnMenuItemClickListener(item -> {
-            startActivity(new Intent(this, SettingsActivity.class));
-            return true;
-        });
-        return true;
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            tab.setText(tabTitles[position]);
+            tab.setIcon(ContextCompat.getDrawable(this, tabIcons[position]));
+        }).attach();
+
+        findViewById(R.id.btnSettings).setOnClickListener(v ->
+                startActivity(new Intent(this, SettingsActivity.class)));
     }
 }
