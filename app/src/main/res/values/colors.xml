@@ -5,4 +5,11 @@
     <color name="background">#F5F7FA</color>
     <color name="white">#FFFFFF</color>
     <color name="text_dark">#1A1A1A</color>
+    <color name="card_border">#E0E0E0</color>
+
+    <color name="college_cs">#1565C0</color>
+    <color name="college_medicine">#E53935</color>
+    <color name="college_economics">#43A047</color>
+    <color name="college_law">#6A1B9A</color>
+    <color name="college_education">#FB8C00</color>
 </resources>
