@@ -5,6 +5,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/primary_dark"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="المساعد الدراسي"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:padding="12dp" />
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⚙ الإعدادات"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:background="@android:color/transparent" />
+
+    </LinearLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
