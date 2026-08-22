@@ -62,9 +62,9 @@ public class ChatFragment extends Fragment {
     private TextView addMessage(String text, boolean isUser) {
         TextView tv = new TextView(requireContext());
         tv.setText(text);
-        tv.setPadding(24, 16, 24, 16);
+        tv.setPadding(28, 18, 28, 18);
         tv.setTextColor(isUser ? getResources().getColor(android.R.color.white) : getResources().getColor(R.color.text_dark));
-        tv.setBackgroundColor(getResources().getColor(isUser ? R.color.primary : R.color.white));
+        tv.setBackgroundResource(isUser ? R.drawable.bg_chat_bubble_user : R.drawable.bg_chat_bubble_ai);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -76,4 +76,3 @@ public class ChatFragment extends Fragment {
         chatScroll.post(() -> chatScroll.fullScroll(View.FOCUS_DOWN));
         return tv;
     }
-}
