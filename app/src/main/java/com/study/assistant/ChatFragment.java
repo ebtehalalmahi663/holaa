@@ -76,3 +76,4 @@ public class ChatFragment extends Fragment {
         chatScroll.post(() -> chatScroll.fullScroll(View.FOCUS_DOWN));
         return tv;
     }
+}
