@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/bg_dialog_rounded"
+    android:padding="28dp">
+
+    <FrameLayout
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/bg_icon_circle"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_college_education" />
+
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="مرحبًا بعودتك"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="آخر مرة كنت واقف في:"
+        android:textSize="13sp"
+        android:textColor="@color/text_dark"
+        android:alpha="0.7"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tvResumePath"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_dark"
+        android:gravity="center"
+        android:background="@color/background"
+        android:padding="14dp"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:id="@+id/btnResumeContinue"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="متابعة من هنا"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_button_rounded"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/btnResumeNew"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="بداية جديدة"
+        android:textAllCaps="false"
+        android:textColor="@color/primary"
+        android:background="@drawable/bg_button_outline" />
+
+</LinearLayout>
