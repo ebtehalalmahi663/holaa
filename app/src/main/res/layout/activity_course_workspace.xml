@@ -40,7 +40,8 @@
         android:background="@color/primary"
         app:tabTextColor="#CCFFFFFF"
         app:tabSelectedTextColor="@color/white"
-        app:tabIndicatorColor="@color/white" />
+        app:tabIndicatorColor="@color/white" 
+        app:tabIconTint="@null"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
