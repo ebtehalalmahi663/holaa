@@ -1,9 +1,12 @@
 package com.study.assistant;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
 
         if (college != null && !college.isEmpty()) {
-            String resumeMsg = "آخر مرة كنت واقف في:\n" + college + " ← " + department + " ← " + semester;
+            String resumeMsg = college + " ← " + department + " ← " + semester;
             if (course != null && !course.isEmpty()) {
                 resumeMsg += " ← " + course;
             }
@@ -77,24 +80,40 @@ public class MainActivity extends AppCompatActivity {
             final String fCollege = college, fDepartment = department, fSemester = semester;
             final String fUsername = username;
 
-            new android.app.AlertDialog.Builder(this)
-                    .setTitle("مرحبًا بعودتك")
-                    .setMessage(resumeMsg)
-                    .setPositiveButton("متابعة من هنا", (d, w) -> {
-                        Intent intent = new Intent(MainActivity.this, CourseWorkspaceActivity.class);
-                        intent.putExtra("username", fUsername);
-                        intent.putExtra("college", fCollege);
-                        intent.putExtra("department", fDepartment);
-                        intent.putExtra("semester", fSemester);
-                        startActivity(intent);
-                    })
-                    .setNegativeButton("بداية جديدة", (d, w) -> {
-                        Intent intent = new Intent(MainActivity.this, SelectionActivity.class);
-                        intent.putExtra("username", fUsername);
-                        startActivity(intent);
-                    })
+            View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_resume, null);
+            TextView tvResumePath = dialogView.findViewById(R.id.tvResumePath);
+            Button btnContinue = dialogView.findViewById(R.id.btnResumeContinue);
+            Button btnNew = dialogView.findViewById(R.id.btnResumeNew);
+
+            tvResumePath.setText(resumeMsg);
+
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setView(dialogView)
                     .setCancelable(false)
-                    .show();
+                    .create();
+
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            }
+
+            btnContinue.setOnClickListener(v -> {
+                dialog.dismiss();
+                Intent intent = new Intent(MainActivity.this, CourseWorkspaceActivity.class);
+                intent.putExtra("username", fUsername);
+                intent.putExtra("college", fCollege);
+                intent.putExtra("department", fDepartment);
+                intent.putExtra("semester", fSemester);
+                startActivity(intent);
+            });
+
+            btnNew.setOnClickListener(v -> {
+                dialog.dismiss();
+                Intent intent = new Intent(MainActivity.this, SelectionActivity.class);
+                intent.putExtra("username", fUsername);
+                startActivity(intent);
+            });
+
+            dialog.show();
         } else {
             Intent intent = new Intent(MainActivity.this, SelectionActivity.class);
             intent.putExtra("username", username);
