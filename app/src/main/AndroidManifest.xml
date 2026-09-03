@@ -11,7 +11,8 @@
 android:roundIcon="@mipmap/ic_launcher_round"
         android:label="المساعد الدراسي"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+<activity android:name=".ExamHistoryActivity" android:exported="false" />>
 
         <activity
             android:name=".MainActivity"
