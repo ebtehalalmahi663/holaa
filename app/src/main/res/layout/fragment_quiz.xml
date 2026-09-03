@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
-<Button
+
+        <Button
             android:id="@+id/btnViewHistory"
             android:layout_width="match_parent"
             android:layout_height="46dp"
@@ -19,10 +20,6 @@
             android:background="@drawable/bg_button_outline"
             android:layout_marginBottom="20dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="اسم المقرر"
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
