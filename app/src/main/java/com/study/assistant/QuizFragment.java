@@ -187,6 +187,10 @@ public class QuizFragment extends Fragment {
 
                     android.content.Intent intent = new android.content.Intent(requireContext(), QuizActivity.class);
                     intent.putExtra("course_name", courseName);
+                    intent.putExtra("username", username);
+                    intent.putExtra("college", college);
+                    intent.putExtra("department", department);
+                    intent.putExtra("semester", semester);
                     QuizActivity.pendingQuestions = questions;
                     startActivity(intent);
 
