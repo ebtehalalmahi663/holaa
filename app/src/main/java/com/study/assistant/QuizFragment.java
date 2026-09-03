@@ -93,7 +93,7 @@ public class QuizFragment extends Fragment {
         return view;
     }
 
-    private void loadCourses() {
+        private void loadCourses() {
         courseIds.clear();
         courseNames.clear();
         Cursor cursor = dbHelper.getCourses(username, college, department, semester);
@@ -109,6 +109,10 @@ public class QuizFragment extends Fragment {
 
         if (!courseIds.isEmpty()) {
             loadLectureCheckboxes(courseIds.get(0));
+        } else {
+            Toast.makeText(requireContext(),
+                    "بحثت عن: [" + college + "] [" + department + "] [" + semester + "] ولقيت 0 مقرر",
+                    Toast.LENGTH_LONG).show();
         }
     }
 
