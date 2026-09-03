@@ -18,6 +18,10 @@ public class ReportActivity extends AppCompatActivity {
         setTitle("تقرير النتيجة");
 
         String courseName = getIntent().getStringExtra("course_name");
+        String username = getIntent().getStringExtra("username");
+        String college = getIntent().getStringExtra("college");
+        String department = getIntent().getStringExtra("department");
+        String semester = getIntent().getStringExtra("semester");
         int correctCount = getIntent().getIntExtra("correct_count", 0);
         int totalCount = getIntent().getIntExtra("total_count", 0);
         double percentage = getIntent().getDoubleExtra("percentage", 0);
@@ -29,6 +33,7 @@ public class ReportActivity extends AppCompatActivity {
         ProgressBar progressBar = findViewById(R.id.progressBar);
 
         boolean passed = percentage >= 60;
+new DatabaseHelper(this).insertExamResult(username, college, department, semester, courseName, correctCount, totalCount, percentage);
         tvTitle.setText(passed ? "🎉 مبروك، ناجح" : "📘 يحتاج مراجعة إضافية");
         tvTitle.setTextColor(getResources().getColor(passed ? android.R.color.holo_green_dark : android.R.color.holo_red_dark));
 
