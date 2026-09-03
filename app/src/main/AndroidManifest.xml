@@ -8,11 +8,10 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="المساعد الدراسي"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-<activity android:name=".ExamHistoryActivity" android:exported="false" />>
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".MainActivity"
@@ -28,6 +27,7 @@ android:roundIcon="@mipmap/ic_launcher_round"
         <activity android:name=".SettingsActivity" android:exported="false" />
         <activity android:name=".QuizActivity" android:exported="false" />
         <activity android:name=".ReportActivity" android:exported="false" />
+        <activity android:name=".ExamHistoryActivity" android:exported="false" />
 
     </application>
 
