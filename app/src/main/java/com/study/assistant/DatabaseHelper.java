@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "study_assistant.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     public static final String TABLE_USERS = "users";
     public static final String COL_USERNAME = "username";
@@ -36,6 +36,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_FILE_COURSE_ID = "course_id";
     public static final String COL_FILE_NAME = "file_name";
     public static final String COL_FILE_URI = "file_uri";
+
+    public static final String TABLE_EXAM_HISTORY = "exam_history";
+    public static final String COL_EH_ID = "id";
+    public static final String COL_EH_USERNAME = "username";
+    public static final String COL_EH_COLLEGE = "college";
+    public static final String COL_EH_DEPARTMENT = "department";
+    public static final String COL_EH_SEMESTER = "semester";
+    public static final String COL_EH_COURSE = "course_name";
+    public static final String COL_EH_CORRECT = "correct_count";
+    public static final String COL_EH_TOTAL = "total_count";
+    public static final String COL_EH_PERCENTAGE = "percentage";
+    public static final String COL_EH_TIMESTAMP = "exam_timestamp";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -71,6 +83,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_FILE_NAME + " TEXT, " +
                 COL_FILE_URI + " TEXT" +
                 ")");
+
+        db.execSQL("CREATE TABLE " + TABLE_EXAM_HISTORY + " (" +
+                COL_EH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_EH_USERNAME + " TEXT, " +
+                COL_EH_COLLEGE + " TEXT, " +
+                COL_EH_DEPARTMENT + " TEXT, " +
+                COL_EH_SEMESTER + " TEXT, " +
+                COL_EH_COURSE + " TEXT, " +
+                COL_EH_CORRECT + " INTEGER, " +
+                COL_EH_TOTAL + " INTEGER, " +
+                COL_EH_PERCENTAGE + " REAL, " +
+                COL_EH_TIMESTAMP + " INTEGER" +
+                ")");
     }
 
     @Override
@@ -78,6 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FILES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXAM_HISTORY);
         onCreate(db);
     }
 
@@ -154,5 +180,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         return db.query(TABLE_FILES, null, COL_FILE_COURSE_ID + "=?",
                 new String[]{String.valueOf(courseId)}, null, null, COL_FILE_ID + " DESC");
+    }
+
+    // ---------- سجل نتائج الامتحانات ----------
+
+    public long insertExamResult(String username, String college, String department, String semester,
+                                  String courseName, int correctCount, int totalCount, double percentage) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_EH_USERNAME, username);
+        values.put(COL_EH_COLLEGE, college);
+        values.put(COL_EH_DEPARTMENT, department);
+        values.put(COL_EH_SEMESTER, semester);
+        values.put(COL_EH_COURSE, courseName);
+        values.put(COL_EH_CORRECT, correctCount);
+        values.put(COL_EH_TOTAL, totalCount);
+        values.put(COL_EH_PERCENTAGE, percentage);
+        values.put(COL_EH_TIMESTAMP, System.currentTimeMillis());
+        return db.insert(TABLE_EXAM_HISTORY, null, values);
+    }
+
+    public Cursor getExamHistory(String username, String college, String department, String semester) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query(TABLE_EXAM_HISTORY, null,
+                COL_EH_USERNAME + "=? AND " + COL_EH_COLLEGE + "=? AND " +
+                        COL_EH_DEPARTMENT + "=? AND " + COL_EH_SEMESTER + "=?",
+                new String[]{username, college, department, semester},
+                null, null, COL_EH_TIMESTAMP + " DESC");
     }
 }
