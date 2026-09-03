@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 
 public class GeminiHelper {
 
-    private static final String MODEL_NAME = "gemini-2.5-flash-lite";
+    private static final String MODEL_NAME = "gemini-3.5-flash-lite";
     private static final String PREFS_NAME = "study_assistant_prefs";
     private static final String KEY_API_KEY = "gemini_api_key";
 
