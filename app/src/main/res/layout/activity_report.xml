@@ -70,7 +70,25 @@
             android:textSize="15sp"
             android:textColor="@color/text_dark"
             android:background="@drawable/bg_card_rounded"
-            android:padding="16dp" />
+            android:padding="16dp"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/tvWrongAnswersTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="الأسئلة التي أخطأت فيها"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/wrongAnswersContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
     </LinearLayout>
 
