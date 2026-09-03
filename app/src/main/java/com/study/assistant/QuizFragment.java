@@ -58,6 +58,16 @@ public class QuizFragment extends Fragment {
         etNumQuestions = view.findViewById(R.id.etNumQuestions);
         progressBar = view.findViewById(R.id.progressBar);
         Button btnGenerate = view.findViewById(R.id.btnGenerateExam);
+        Button btnViewHistory = view.findViewById(R.id.btnViewHistory);
+
+        btnViewHistory.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(requireContext(), ExamHistoryActivity.class);
+            intent.putExtra("username", username);
+            intent.putExtra("college", college);
+            intent.putExtra("department", department);
+            intent.putExtra("semester", semester);
+            startActivity(intent);
+        });
 
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
