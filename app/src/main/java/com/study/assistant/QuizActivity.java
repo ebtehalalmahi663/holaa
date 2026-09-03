@@ -23,6 +23,7 @@ public class QuizActivity extends AppCompatActivity {
     private List<Question> questions;
     private RadioGroup[] radioGroups;
     private String courseName;
+    private String username, college, department, semester;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,10 @@ public class QuizActivity extends AppCompatActivity {
         setTitle("الامتحان");
 
         courseName = getIntent().getStringExtra("course_name");
+        username = getIntent().getStringExtra("username");
+        college = getIntent().getStringExtra("college");
+        department = getIntent().getStringExtra("department");
+        semester = getIntent().getStringExtra("semester");
         questions = pendingQuestions;
 
         if (questions == null || questions.isEmpty()) {
@@ -85,6 +90,10 @@ public class QuizActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, ReportActivity.class);
         intent.putExtra("course_name", courseName);
+        intent.putExtra("username", username);
+        intent.putExtra("college", college);
+        intent.putExtra("department", department);
+        intent.putExtra("semester", semester);
         intent.putExtra("correct_count", correctCount);
         intent.putExtra("total_count", total);
         intent.putExtra("answered_count", answeredCount);
