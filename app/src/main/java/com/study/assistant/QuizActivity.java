@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
@@ -74,19 +75,28 @@ public class QuizActivity extends AppCompatActivity {
     private void submitExam() {
         int correctCount = 0;
         int answeredCount = 0;
+        ArrayList<WrongAnswer> wrongAnswers = new ArrayList<>();
 
         for (int i = 0; i < questions.size(); i++) {
             int selectedId = radioGroups[i].getCheckedRadioButtonId();
+            Question q = questions.get(i);
+
             if (selectedId != -1) {
                 answeredCount++;
-                if (selectedId == questions.get(i).correctIndex) {
+                if (selectedId == q.correctIndex) {
                     correctCount++;
+                } else {
+                    wrongAnswers.add(new WrongAnswer(q.questionText, q.options, q.correctIndex, selectedId));
                 }
+            } else {
+                wrongAnswers.add(new WrongAnswer(q.questionText, q.options, q.correctIndex, -1));
             }
         }
 
         int total = questions.size();
         double percentage = total == 0 ? 0 : (correctCount * 100.0 / total);
+
+        ReportActivity.pendingWrongAnswers = wrongAnswers;
 
         Intent intent = new Intent(this, ReportActivity.class);
         intent.putExtra("course_name", courseName);
