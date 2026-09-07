@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "study_assistant.db";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     public static final String TABLE_USERS = "users";
     public static final String COL_USERNAME = "username";
@@ -48,6 +48,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_EH_TOTAL = "total_count";
     public static final String COL_EH_PERCENTAGE = "percentage";
     public static final String COL_EH_TIMESTAMP = "exam_timestamp";
+
+    public static final String TABLE_REMINDERS = "reminders";
+    public static final String COL_REM_ID = "id";
+    public static final String COL_REM_USERNAME = "username";
+    public static final String COL_REM_COURSE = "course_name";
+    public static final String COL_REM_HOUR = "hour";
+    public static final String COL_REM_MINUTE = "minute";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -96,6 +103,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_EH_PERCENTAGE + " REAL, " +
                 COL_EH_TIMESTAMP + " INTEGER" +
                 ")");
+
+        db.execSQL("CREATE TABLE " + TABLE_REMINDERS + " (" +
+                COL_REM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_REM_USERNAME + " TEXT, " +
+                COL_REM_COURSE + " TEXT, " +
+                COL_REM_HOUR + " INTEGER, " +
+                COL_REM_MINUTE + " INTEGER" +
+                ")");
     }
 
     @Override
@@ -104,6 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FILES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXAM_HISTORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDERS);
         onCreate(db);
     }
 
@@ -167,6 +183,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null, null, COL_COURSE_ID + " DESC");
     }
 
+    public Cursor getAllCourseNames(String username) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query(true, TABLE_COURSES, new String[]{COL_COURSE_NAME},
+                COL_COURSE_USERNAME + "=?", new String[]{username},
+                null, null, COL_COURSE_NAME + " ASC", null);
+    }
+
     public long insertLectureFile(long courseId, String fileName, String fileUri) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -181,8 +204,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.query(TABLE_FILES, null, COL_FILE_COURSE_ID + "=?",
                 new String[]{String.valueOf(courseId)}, null, null, COL_FILE_ID + " DESC");
     }
-
-    // ---------- سجل نتائج الامتحانات ----------
 
     public long insertExamResult(String username, String college, String department, String semester,
                                   String courseName, int correctCount, int totalCount, double percentage) {
@@ -207,5 +228,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         COL_EH_DEPARTMENT + "=? AND " + COL_EH_SEMESTER + "=?",
                 new String[]{username, college, department, semester},
                 null, null, COL_EH_TIMESTAMP + " DESC");
+    }
+
+    public long insertReminder(String username, String courseName, int hour, int minute) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_REM_USERNAME, username);
+        values.put(COL_REM_COURSE, courseName);
+        values.put(COL_REM_HOUR, hour);
+        values.put(COL_REM_MINUTE, minute);
+        return db.insert(TABLE_REMINDERS, null, values);
+    }
+
+    public Cursor getReminders(String username) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query(TABLE_REMINDERS, null, COL_REM_USERNAME + "=?",
+                new String[]{username}, null, null, COL_REM_ID + " DESC");
+    }
+
+    public void deleteReminder(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE_REMINDERS, COL_REM_ID + "=?", new String[]{String.valueOf(id)});
     }
 }
