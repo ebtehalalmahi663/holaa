@@ -38,5 +38,8 @@ public class CourseWorkspaceActivity extends AppCompatActivity {
 
         findViewById(R.id.btnSettings).setOnClickListener(v ->
                 startActivity(new Intent(this, SettingsActivity.class)));
+
+        findViewById(R.id.btnReminders).setOnClickListener(v ->
+                startActivity(new Intent(this, ReminderActivity.class)));
     }
 }
