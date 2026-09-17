@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "study_assistant.db";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
     public static final String TABLE_USERS = "users";
     public static final String COL_USERNAME = "username";
@@ -55,6 +55,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_REM_COURSE = "course_name";
     public static final String COL_REM_HOUR = "hour";
     public static final String COL_REM_MINUTE = "minute";
+
+    public static final String TABLE_DOCTORS = "doctors";
+    public static final String COL_DOC_ID = "id";
+    public static final String COL_DOC_COURSE_ID = "course_id";
+    public static final String COL_DOC_NAME = "name";
+    public static final String COL_DOC_EMAIL = "email";
+    public static final String COL_DOC_PHONE = "phone";
+
+    public static final String TABLE_QUESTIONS = "doctor_questions";
+    public static final String COL_Q_ID = "id";
+    public static final String COL_Q_COURSE_ID = "course_id";
+    public static final String COL_Q_LECTURE = "lecture_name";
+    public static final String COL_Q_TEXT = "question_text";
+    public static final String COL_Q_METHOD = "contact_method";
+    public static final String COL_Q_ANSWER_TEXT = "answer_text";
+    public static final String COL_Q_ANSWER_AUDIO = "answer_audio_uri";
+    public static final String COL_Q_TIMESTAMP = "created_at";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -111,6 +128,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_REM_HOUR + " INTEGER, " +
                 COL_REM_MINUTE + " INTEGER" +
                 ")");
+
+        db.execSQL("CREATE TABLE " + TABLE_DOCTORS + " (" +
+                COL_DOC_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_DOC_COURSE_ID + " INTEGER, " +
+                COL_DOC_NAME + " TEXT, " +
+                COL_DOC_EMAIL + " TEXT, " +
+                COL_DOC_PHONE + " TEXT" +
+                ")");
+
+        db.execSQL("CREATE TABLE " + TABLE_QUESTIONS + " (" +
+                COL_Q_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_Q_COURSE_ID + " INTEGER, " +
+                COL_Q_LECTURE + " TEXT, " +
+                COL_Q_TEXT + " TEXT, " +
+                COL_Q_METHOD + " TEXT, " +
+                COL_Q_ANSWER_TEXT + " TEXT, " +
+                COL_Q_ANSWER_AUDIO + " TEXT, " +
+                COL_Q_TIMESTAMP + " INTEGER" +
+                ")");
     }
 
     @Override
@@ -120,6 +156,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FILES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXAM_HISTORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOCTORS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUESTIONS);
         onCreate(db);
     }
 
@@ -249,5 +287,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteReminder(int id) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_REMINDERS, COL_REM_ID + "=?", new String[]{String.valueOf(id)});
+    }
+
+    public long insertDoctor(long courseId, String name, String email, String phone) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_DOC_COURSE_ID, courseId);
+        values.put(COL_DOC_NAME, name);
+        values.put(COL_DOC_EMAIL, email);
+        values.put(COL_DOC_PHONE, phone);
+        return db.insert(TABLE_DOCTORS, null, values);
+    }
+
+    public Cursor getDoctors(long courseId) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query(TABLE_DOCTORS, null, COL_DOC_COURSE_ID + "=?",
+                new String[]{String.valueOf(courseId)}, null, null, COL_DOC_ID + " DESC");
+    }
+
+    public void deleteDoctor(long id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE_DOCTORS, COL_DOC_ID + "=?", new String[]{String.valueOf(id)});
+    }
+
+    public long insertQuestion(long courseId, String lectureName, String questionText, String method) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_Q_COURSE_ID, courseId);
+        values.put(COL_Q_LECTURE, lectureName);
+        values.put(COL_Q_TEXT, questionText);
+        values.put(COL_Q_METHOD, method);
+        values.put(COL_Q_TIMESTAMP, System.currentTimeMillis());
+        return db.insert(TABLE_QUESTIONS, null, values);
+    }
+
+    public Cursor getQuestions(long courseId) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query(TABLE_QUESTIONS, null, COL_Q_COURSE_ID + "=?",
+                new String[]{String.valueOf(courseId)}, null, null, COL_Q_TIMESTAMP + " DESC");
+    }
+
+    public void updateAnswer(long questionId, String answerText, String answerAudioUri) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_Q_ANSWER_TEXT, answerText);
+        values.put(COL_Q_ANSWER_AUDIO, answerAudioUri);
+        db.update(TABLE_QUESTIONS, values, COL_Q_ID + "=?", new String[]{String.valueOf(questionId)});
     }
 }
