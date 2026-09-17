@@ -63,6 +63,18 @@
         android:id="@+id/filesContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnAskDoctor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="👨‍🏫 اسأل الدكتور"
+        android:textAllCaps="false"
+        android:textColor="@color/primary"
+        android:background="@drawable/bg_button_outline"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="8dp" />
 
 </LinearLayout>
