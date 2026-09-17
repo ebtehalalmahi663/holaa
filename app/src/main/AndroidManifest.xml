@@ -31,6 +31,7 @@
         <activity android:name=".ReportActivity" android:exported="false" />
         <activity android:name=".ExamHistoryActivity" android:exported="false" />
         <activity android:name=".ReminderActivity" android:exported="false" />
+        <activity android:name=".DoctorQAActivity" android:exported="false" />
 
         <receiver android:name=".ReminderReceiver" android:exported="false" />
 
