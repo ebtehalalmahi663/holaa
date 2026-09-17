@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/etDoctorName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="اسم الدكتور"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etDoctorEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="البريد الإلكتروني (اختياري)"
+        android:inputType="textEmailAddress"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etDoctorPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="رقم الواتساب مع كود الدولة، مثال: 249912345678"
+        android:inputType="phone" />
+
+</LinearLayout>
