@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_card_rounded"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp">
+
+    <TextView
+        android:id="@+id/tvQaLecture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:id="@+id/tvQaQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/text_dark"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/tvQaAnswerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/college_economics"
+        android:background="@color/background"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnPlayAnswerAudio"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:text="🔊 استمع لرد الدكتور"
+        android:textSize="12sp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_button_rounded"
+        android:paddingHorizontal="12dp"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnAddAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:text="✍ أضف رد الدكتور"
+        android:textSize="12sp"
+        android:textAllCaps="false"
+        android:textColor="@color/primary"
+        android:background="@drawable/bg_button_outline"
+        android:paddingHorizontal="12dp" />
+
+</LinearLayout>
