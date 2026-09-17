@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/etAnswerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="اكتب رد الدكتور النصي هنا (اختياري)"
+        android:minLines="3"
+        android:gravity="top|start"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnAttachAudio"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:text="📎 إرفاق رد صوتي (اختياري)"
+        android:textAllCaps="false"
+        android:textColor="@color/primary"
+        android:background="@drawable/bg_button_outline" />
+
+    <TextView
+        android:id="@+id/tvAttachedFileName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/text_dark"
+        android:layout_marginTop="6dp" />
+
+</LinearLayout>
