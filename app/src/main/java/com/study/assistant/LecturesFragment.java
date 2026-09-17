@@ -122,6 +122,7 @@ public class LecturesFragment extends Fragment {
             TextView tvName = courseView.findViewById(R.id.tvCourseName);
             TextView tvDetails = courseView.findViewById(R.id.tvCourseDetails);
             Button btnAddFiles = courseView.findViewById(R.id.btnAddFiles);
+            Button btnAskDoctor = courseView.findViewById(R.id.btnAskDoctor);
             LinearLayout filesContainer = courseView.findViewById(R.id.filesContainer);
 
             tvName.setText(name);
@@ -139,14 +140,21 @@ public class LecturesFragment extends Fragment {
                 filePickerLauncher.launch(new String[]{"*/*"});
             });
 
-            loadFilesForCourse(courseId, filesContainer);
+            btnAskDoctor.setOnClickListener(v -> {
+                Intent intent = new Intent(requireContext(), DoctorQAActivity.class);
+                intent.putExtra("course_id", courseId);
+                intent.putExtra("course_name", courseNameFinal);
+                startActivity(intent);
+            });
+
+            loadFilesForCourse(courseId, filesContainer, courseNameFinal);
 
             coursesContainer.addView(courseView);
         }
         cursor.close();
     }
 
-    private void loadFilesForCourse(long courseId, LinearLayout filesContainer) {
+    private void loadFilesForCourse(long courseId, LinearLayout filesContainer, String courseName) {
         filesContainer.removeAllViews();
         Cursor cursor = dbHelper.getLectureFiles(courseId);
 
@@ -155,14 +163,60 @@ public class LecturesFragment extends Fragment {
             String fileUriStr = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COL_FILE_URI));
 
             View fileRow = LayoutInflater.from(requireContext()).inflate(R.layout.item_file_row, filesContainer, false);
-            TextView tvFile = (TextView) fileRow;
-            tvFile.setText("📄 " + fileName);
+            TextView tvFile = fileRow.findViewById(R.id.tvFileName);
+            Button btnSummarize = fileRow.findViewById(R.id.btnSummarize);
 
+            tvFile.setText("📄 " + fileName);
             tvFile.setOnClickListener(v -> openFile(Uri.parse(fileUriStr)));
+            btnSummarize.setOnClickListener(v -> showSummaryDialog(fileName, courseName));
 
             filesContainer.addView(fileRow);
         }
         cursor.close();
+    }
+
+    private void showSummaryDialog(String fileName, String courseName) {
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_summary, null);
+        TextView tvFileName = dialogView.findViewById(R.id.tvSummaryFileName);
+        TextView tvContent = dialogView.findViewById(R.id.tvSummaryContent);
+        android.widget.ProgressBar progressBar = dialogView.findViewById(R.id.progressBarSummary);
+        Button btnClose = dialogView.findViewById(R.id.btnCloseSummary);
+
+        tvFileName.setText(courseName + " ← " + fileName);
+        tvContent.setText("");
+        progressBar.setVisibility(View.VISIBLE);
+
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .setCancelable(true)
+                .create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+
+        String prompt = "أنت مساعد دراسي لطالب جامعي. المقرر: \"" + courseName +
+                "\". اسم ملف المحاضرة: \"" + fileName + "\". " +
+                "بناءً على اسم المحاضرة والمقرر، اكتب ملخصًا تعليميًا مفيدًا لأهم النقاط المتوقع أن تتناولها محاضرة بهذا العنوان في هذا التخصص. " +
+                "اكتب الملخص على شكل نقاط قصيرة وواضحة بالعربية، بحد أقصى 8 نقاط. " +
+                "لو اسم الملف غير واضح المعنى (مثل lec1 أو ملف بدون عنوان دال)، وضّح للطالب إن الاسم غير كافٍ لتحديد محتوى دقيق واطلب منه إعادة تسمية الملف باسم موضوع المحاضرة للحصول على ملخص أدق.";
+
+        GeminiHelper.sendPrompt(requireContext(), prompt, new GeminiHelper.Callback() {
+            @Override
+            public void onSuccess(String responseText) {
+                progressBar.setVisibility(View.GONE);
+                tvContent.setText(responseText);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                progressBar.setVisibility(View.GONE);
+                tvContent.setText(errorMessage);
+            }
+        });
     }
 
     private void openFile(Uri uri) {
